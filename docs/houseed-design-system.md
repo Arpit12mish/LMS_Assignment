@@ -1,6 +1,6 @@
 # HouseEd Mobile LMS Design System
 
-HouseEd is the short product name for House of Edtech inside the mobile LMS UI. The design direction follows the supplied visual reference: a calm near-white system, strong slate text, one confident blue, and red reserved only for meaningful error/offline/destructive states.
+HouseEd is the short product name for House of Edtech inside the mobile LMS UI. The design direction follows the supplied visual reference: a calm near-white system, strong slate text, one confident blue, and red reserved only for meaningful error/offline/destructive states. Dark mode is a first-class product theme, not a tab-bar-only treatment.
 
 ## Foundation Tokens
 
@@ -39,7 +39,7 @@ Dark mode is driven by the persisted app preference, not by OS-only styling. The
 
 ## Type Scale
 
-Use Plus Jakarta Sans through `expo-font`. Fall back to the native system font if the font cannot load.
+Use Plus Jakarta Sans through `expo-font` when the font asset is bundled. Fall back to the native system font if the font cannot load.
 
 | Style | Size/weight | Use |
 | --- | --- | --- |
@@ -57,6 +57,8 @@ Use Plus Jakarta Sans through `expo-font`. Fall back to the native system font i
 // tailwind.config.js
 module.exports = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./features/**/*.{ts,tsx}", "./design-system/**/*.{ts,tsx}"],
+  presets: [require("nativewind/preset")],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
@@ -118,18 +120,23 @@ Routes:
 
 - `app/(auth)/login.tsx`
 - `app/(auth)/register.tsx`
+- `app/(auth)/forgot-password.tsx`
+- `app/(auth)/verify-email.tsx`
 
 Required behavior:
 
 - Login/register through `/api/v1/users` endpoints.
 - Store auth token with Expo SecureStore.
 - Restore session on app launch.
+- Support Google redirect, email verification, forgot password, reset password, refresh token, change password, and logout paths.
 - Show validation states without exposing raw API messages.
 
 Classes:
 
-- Screen: `flex-1 bg-white px-5 justify-center`
-- Input: `h-[50px] rounded-control border-[1.5px] border-border px-4 text-ink`
+- Light screen: `flex-1 bg-white px-5 justify-center`
+- Dark screen: `flex-1 bg-black px-5 justify-center`
+- Light input: `h-[50px] rounded-control border-[1.5px] border-border bg-white px-4 text-ink`
+- Dark input: `h-[50px] rounded-control border-[1.5px] border-[#242A36] bg-[#0B0D12] px-4 text-white`
 - CTA: `h-[52px] rounded-control bg-primary items-center justify-center`
 
 ### Home Dashboard
@@ -138,11 +145,12 @@ Route: `app/(tabs)/index.tsx`
 
 Content:
 
-- Greeting, avatar, notification state.
-- Search entry point.
+- Greeting and avatar.
 - Continue learning navy card.
 - Enrolled, progress, saved stats.
+- Last-opened timestamp and 24-hour reminder status.
 - Recommended rail from cached courses.
+- Learning snapshot, next lessons, and focus categories.
 - Offline banner when `expo-network` reports unavailable connection.
 
 Assignment coverage:
@@ -207,7 +215,11 @@ const injectedJavaScriptBeforeContentLoaded = `
   window.HOUSEED_CONTEXT = {
     courseId: "${courseId}",
     lessonId: "${lessonId}",
-    theme: "light"
+    theme: preferences.darkMode ? "dark" : "light"
+  };
+  window.HOUSEED_HEADERS = {
+    "X-HouseEd-Course-Id": "${courseId}",
+    "X-HouseEd-Lesson-Id": "${lessonId}"
   };
   true;
 `;
@@ -230,6 +242,7 @@ Content:
 
 - Segmented control: courses, lessons, resources.
 - Live counts.
+- Search toggle for saved courses.
 - Empty state leading back to Explore.
 - Notification triggered when bookmark count reaches 5 or more.
 
@@ -243,7 +256,7 @@ Content:
 - Storage meter.
 - Wi-Fi-only setting note.
 - Download rows with queued, downloading, downloaded, failed states.
-- Delete downloaded item as a destructive action.
+- Offline mode shows only downloaded lessons.
 
 Assignment coverage:
 
@@ -260,6 +273,7 @@ Content:
 - Course and progress stats.
 - Preferences: notifications, dark mode, Wi-Fi-only downloads.
 - Last sync status.
+- Settings sheet with token refresh, password change, sync, and 24-hour notification preview tools.
 - Logout as red destructive action.
 
 Assignment coverage:
@@ -287,7 +301,7 @@ types/
 State ownership:
 
 - SecureStore: auth token and refresh token.
-- AsyncStorage/MMKV: bookmarks, enrollment, progress, preferences, cached course payloads.
+- AsyncStorage/MMKV: bookmarks, enrollment, progress, preferences, downloads, cached course payloads, sync timestamps, reminder preview timestamps.
 - React context or lightweight store: hydrated auth state, course state, network state.
 
 API client requirements:
@@ -298,6 +312,12 @@ API client requirements:
 - Auth header injection.
 - Token refresh hook.
 - User-friendly errors.
+
+Dark-mode implementation:
+
+- `DarkModeSync` still informs NativeWind of the selected scheme for compatibility.
+- Core screens and shared components read `preferences.darkMode` directly and apply explicit classes.
+- The WebView lesson template receives the selected theme through `HOUSEED_CONTEXT` and renders matching page/card/text colors.
 
 ## Notification Rules
 

@@ -1,5 +1,5 @@
 import * as SecureStore from "expo-secure-store";
-import { API_BASE_URL, ApiError, apiFetch, authTokenKey } from "@/services/api";
+import { API_BASE_URL, ApiError, apiFetch, authTokenKey, secureStoreOptions } from "@/services/api";
 import { readJson, storageKeys, writeJson } from "@/services/storage";
 import type { AuthSession, UserProfile } from "@/types/lms";
 
@@ -120,9 +120,9 @@ const normalizeSession = (payload: AuthResponse, email: string): AuthSession => 
 };
 
 export async function persistSession(session: AuthSession): Promise<void> {
-  await SecureStore.setItemAsync(authTokenKey, session.token);
+  await SecureStore.setItemAsync(authTokenKey, session.token, secureStoreOptions);
   if (session.refreshToken) {
-    await SecureStore.setItemAsync(storageKeys.refreshToken, session.refreshToken);
+    await SecureStore.setItemAsync(storageKeys.refreshToken, session.refreshToken, secureStoreOptions);
   } else {
     await SecureStore.deleteItemAsync(storageKeys.refreshToken);
   }

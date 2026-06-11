@@ -3,6 +3,9 @@ import { storageKeys } from "@/services/storage";
 
 export const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL ?? "https://api.freeapi.app";
 const AUTH_TOKEN_KEY = "houseed.auth.token";
+export const secureStoreOptions: SecureStore.SecureStoreOptions = {
+  keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+};
 
 type ApiOptions = RequestInit & {
   timeoutMs?: number;
@@ -62,9 +65,9 @@ async function refreshStoredAccessToken(): Promise<boolean> {
     const source = { ...payload, ...(payload.data ?? {}) };
     if (!source.accessToken) return false;
 
-    await SecureStore.setItemAsync(AUTH_TOKEN_KEY, source.accessToken);
+    await SecureStore.setItemAsync(AUTH_TOKEN_KEY, source.accessToken, secureStoreOptions);
     if (source.refreshToken) {
-      await SecureStore.setItemAsync(storageKeys.refreshToken, source.refreshToken);
+      await SecureStore.setItemAsync(storageKeys.refreshToken, source.refreshToken, secureStoreOptions);
     }
     return true;
   } catch {
