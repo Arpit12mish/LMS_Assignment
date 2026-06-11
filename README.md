@@ -14,7 +14,7 @@ HouseEd is a production-style Mini LMS built with **React Native Expo**, **TypeS
 
 | Feature | Description |
 |----------|--------------|
-| **Auth** | Login/register through `/api/v1/users` endpoints with tokens stored in Expo SecureStore |
+| **Auth** | Login/register through `/api/v1/users` endpoints with access and refresh tokens stored in Expo SecureStore |
 | **Auto-login** | Restores a valid SecureStore session on app restart |
 | **Account Recovery** | Email verification, forgot password, reset password, change password, refresh token, logout, and Google login redirect |
 | **Course Catalog** | Fetches random products as courses and random users as instructors from `https://api.freeapi.app` |
@@ -23,7 +23,7 @@ HouseEd is a production-style Mini LMS built with **React Native Expo**, **TypeS
 | **Course Details** | Course hero, instructor, stats, curriculum, enroll/resume state, progress, and download actions |
 | **WebView Reader** | Local HTML lesson content with native-to-web context/header injection, theme sync, and web-to-native progress messages |
 | **Native Features** | Expo Notifications, in-app notifications, Expo FileSystem downloads, Expo ImagePicker avatar updates, Expo Network offline banner |
-| **State Management** | Global React store with SecureStore for sensitive data and AsyncStorage for app data |
+| **State Management** | Global React store with SecureStore for tokens and AsyncStorage for non-sensitive app data |
 | **Error Handling** | API timeout, retry logic, cached fallback, friendly errors, and WebView reload states |
 | **Dark Mode** | Persisted app preference that switches full screens to black surfaces, white text, blue active controls, and light-grey inactive controls |
 
@@ -113,7 +113,7 @@ For EAS cloud builds, configure the same value in the Expo dashboard or through 
 | Course detail | Hero, instructor, rating/duration/lesson stats, enrollment state, bookmark persistence, curriculum, downloads |
 | WebView | Local HTML lesson template, injected context and headers, validated `postMessage` payloads, reading progress, completion action, error state |
 | Notifications | Permission request, 5+ bookmark notification, 24-hour inactivity reminder, 15-second reviewer preview, in-app completion/download notifications |
-| State persistence | SecureStore for tokens; AsyncStorage for courses, bookmarks, enrollment, progress, downloads, preferences, sync timestamps |
+| State persistence | SecureStore for access/refresh tokens; AsyncStorage for courses, bookmarks, enrollment, progress, downloads, preferences, sync timestamps |
 | Performance | LegendList, memoized course cards, stable keys, cached course payloads, pull-to-refresh without rebuilding heavy rows |
 | Error/offline | Timeout, retry, friendly errors, offline banners, cached data, WebView reload state, generated offline lesson package if remote download fails |
 | UI/UX | HouseEd design system, responsive spacing, accessible touch targets, icon labels, persisted dark mode |
@@ -122,7 +122,8 @@ For EAS cloud builds, configure the same value in the Expo dashboard or through 
 
 ## **Key Architecture Decisions**
 
-- SecureStore is used only for auth tokens and sensitive session values.
+- SecureStore is used only for auth tokens and sensitive session values. Access tokens are stored under `houseed.auth.token`; refresh tokens are stored under `houseed.auth.refresh`.
+- SecureStore writes use `SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY`, so tokens are device-local and available only after the device has been unlocked.
 - AsyncStorage is used for course cache, bookmarks, enrollment, progress, downloads, and preferences.
 - API calls use a typed wrapper with timeout, retry, auth header injection, and friendly errors.
 - Course catalog uses LegendList with `recycleItems`, stable `keyExtractor`, estimated item size, and memoized cards.
@@ -130,6 +131,16 @@ For EAS cloud builds, configure the same value in the Expo dashboard or through 
 - Offline UX is visible but calm: cached courses remain available and the banner explains the state.
 - Dark mode is preference-driven from the app store, not just OS-level styling. Screens read `preferences.darkMode` and apply explicit black/near-black surfaces so the page changes immediately.
 - Downloads try the remote file first; if the host blocks direct file access, the app creates a local offline HTML lesson package instead of leaving a failed item.
+
+---
+
+## **Security Notes**
+
+- Access tokens and refresh tokens are never written to AsyncStorage.
+- The cached user profile is stored in AsyncStorage because it is non-sensitive display data.
+- Authenticated requests read the access token from SecureStore at request time and inject `Authorization: Bearer <token>`.
+- A `401` response on authenticated requests attempts refresh-token recovery once, then retries the original request.
+- Logout calls the backend logout endpoint and clears both SecureStore token keys locally even if the network request fails.
 
 ---
 

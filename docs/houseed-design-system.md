@@ -126,7 +126,7 @@ Routes:
 Required behavior:
 
 - Login/register through `/api/v1/users` endpoints.
-- Store auth token with Expo SecureStore.
+- Store access and refresh tokens with Expo SecureStore.
 - Restore session on app launch.
 - Support Google redirect, email verification, forgot password, reset password, refresh token, change password, and logout paths.
 - Show validation states without exposing raw API messages.
@@ -300,9 +300,16 @@ types/
 
 State ownership:
 
-- SecureStore: auth token and refresh token.
+- SecureStore: access token under `houseed.auth.token` and refresh token under `houseed.auth.refresh`.
 - AsyncStorage/MMKV: bookmarks, enrollment, progress, preferences, downloads, cached course payloads, sync timestamps, reminder preview timestamps.
 - React context or lightweight store: hydrated auth state, course state, network state.
+
+SecureStore policy:
+
+- Token writes use `SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY`.
+- Tokens are never persisted to AsyncStorage.
+- AsyncStorage may store the cached user profile because it is non-sensitive display state.
+- Logout deletes both SecureStore token keys locally after attempting `/api/v1/users/logout`.
 
 API client requirements:
 
@@ -310,7 +317,7 @@ API client requirements:
 - Timeout.
 - Retry for transient network errors.
 - Auth header injection.
-- Token refresh hook.
+- Token refresh hook using the SecureStore refresh token.
 - User-friendly errors.
 
 Dark-mode implementation:
