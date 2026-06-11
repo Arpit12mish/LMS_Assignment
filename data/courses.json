@@ -1,0 +1,166 @@
+[
+  {
+    "id": "c-react-native",
+    "title": "React Native Essentials",
+    "description": "Build cross-platform apps with Expo and RN.",
+    "thumbnail": "https://dummyimage.com/640x360/111827/ffffff&text=React+Native",
+    "lessons": [
+      {
+        "id": "l-intro",
+        "title": "Intro & Setup",
+        "duration": 300,
+        "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+        "downloadUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        "type": "video"
+      },
+      {
+        "id": "l-webview",
+        "title": "WebView Basics (PDF)",
+        "duration": 420,
+        "streamUrl": "",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        "type": "pdf"
+      },
+      {
+        "id": "l-video-player",
+        "title": "HLS Video Player",
+        "duration": 540,
+        "streamUrl": "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8",
+        "downloadUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+        "type": "video"
+      }
+    ]
+  },
+
+  {
+    "id": "c-javascript-mastery",
+    "title": "JavaScript Mastery",
+    "description": "Modern JS: syntax, modules, async, and tooling.",
+    "thumbnail": "https://dummyimage.com/640x360/0f172a/ffffff&text=JavaScript",
+    "lessons": [
+      {
+        "id": "l-js-foundations",
+        "title": "Language Foundations",
+        "duration": 600,
+        "streamUrl": "https://d2zihajmogu5jn.cloudfront.net/sintel/master.m3u8",
+        "downloadUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+        "type": "video"
+      },
+      {
+        "id": "l-js-async",
+        "title": "Async Patterns (Promises/Async-Await)",
+        "duration": 720,
+        "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+        "downloadUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+        "type": "video"
+      },
+      {
+        "id": "l-js-cheatsheet",
+        "title": "Cheatsheet (PDF)",
+        "duration": 300,
+        "streamUrl": "",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        "type": "pdf"
+      }
+    ]
+  },
+
+  {
+    "id": "c-node-express",
+    "title": "Backend with Node & Express",
+    "description": "Build REST APIs with Node, Express and best practices.",
+    "thumbnail": "https://dummyimage.com/640x360/111827/ffffff&text=Node+%26+Express",
+    "lessons": [
+      {
+        "id": "l-node-setup",
+        "title": "Project Setup & Scripts",
+        "duration": 480,
+        "streamUrl": "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8",
+        "downloadUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+        "type": "video"
+      },
+      {
+        "id": "l-express-routing",
+        "title": "Express Routing + Middleware",
+        "duration": 660,
+        "streamUrl": "https://d2zihajmogu5jn.cloudfront.net/sintel/master.m3u8",
+        "downloadUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+        "type": "video"
+      },
+      {
+        "id": "l-api-docs",
+        "title": "API Design Checklist (PDF)",
+        "duration": 360,
+        "streamUrl": "",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        "type": "pdf"
+      }
+    ]
+  },
+
+  {
+    "id": "c-uiux-mobile",
+    "title": "UI/UX for Mobile",
+    "description": "Design patterns, accessibility, and motion for apps.",
+    "thumbnail": "https://dummyimage.com/640x360/0b1221/ffffff&text=UI%2FUX",
+    "lessons": [
+      {
+        "id": "l-accessibility",
+        "title": "Mobile A11y Basics",
+        "duration": 420,
+        "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+        "downloadUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+        "type": "video"
+      },
+      {
+        "id": "l-motion",
+        "title": "Motion & Micro-interactions",
+        "duration": 540,
+        "streamUrl": "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8",
+        "downloadUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4",
+        "type": "video"
+      },
+      {
+        "id": "l-design-guide",
+        "title": "Design Checklist (PDF)",
+        "duration": 300,
+        "streamUrl": "",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        "type": "pdf"
+      }
+    ]
+  },
+
+  {
+    "id": "c-dsa-interviews",
+    "title": "Data Structures & Algorithms",
+    "description": "Interview-focused DSA with practice problems.",
+    "thumbnail": "https://dummyimage.com/640x360/1f2937/ffffff&text=DSA",
+    "lessons": [
+      {
+        "id": "l-arrays",
+        "title": "Arrays & Hashing",
+        "duration": 600,
+        "streamUrl": "https://d2zihajmogu5jn.cloudfront.net/sintel/master.m3u8",
+        "downloadUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
+        "type": "video"
+      },
+      {
+        "id": "l-twopointers",
+        "title": "Two Pointers & Sliding Window",
+        "duration": 720,
+        "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+        "downloadUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4",
+        "type": "video"
+      },
+      {
+        "id": "l-cheatsheet",
+        "title": "Patterns Cheatsheet (PDF)",
+        "duration": 300,
+        "streamUrl": "",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        "type": "pdf"
+      }
+    ]
+  }
+]

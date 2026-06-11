@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "HouseEd LMS",
+    "slug": "houseed-lms",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/ic_launcher.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/ic_launcher_round.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.arpitmishra.myassign",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/ic_launcher_foreground.png",
+        "backgroundColor": "#000000"
+      },
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "05be9e9e-d4c3-4c2d-9a56-7f3a37c82ef4"
+      }
+    },
+    "owner": "arpit12mish",
+    "scheme": "houseed",
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-font"
+    ]
+  }
+}

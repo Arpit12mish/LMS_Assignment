@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HouseEd Mobile LMS - Design System</title>
+    <style>
+      :root {
+        --primary: #2563eb;
+        --primary-deep: #1d4ed8;
+        --navy: #0b1221;
+        --ink: #0f172a;
+        --slate: #64748b;
+        --soft-blue: #eff6ff;
+        --canvas: #f8fafc;
+        --border: #e2e8f0;
+        --success: #16a34a;
+        --warning: #f59e0b;
+        --error: #dc2626;
+        --dark-page: #000000;
+        --dark-surface: #0b0d12;
+        --dark-raised: #111827;
+        --dark-border: #242a36;
+        --dark-text: #ffffff;
+        --dark-muted: #c8d0dc;
+        --dark-inactive: #d1d5db;
+        --dark-inactive-surface: #e5e7eb;
+        --paper: #f1eee8;
+        --muted: #81796f;
+        --brown: #41382f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family:
+          "Plus Jakarta Sans",
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        color: var(--ink);
+        background:
+          linear-gradient(rgba(65, 56, 47, 0.055) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(65, 56, 47, 0.055) 1px, transparent 1px),
+          var(--paper);
+        background-size: 96px 96px;
+      }
+
+      .page {
+        width: 842px;
+        min-height: 646px;
+        padding: 16px 46px 0;
+      }
+
+      .hero-title {
+        margin: 0;
+        color: var(--brown);
+        font-size: 54px;
+        line-height: 1.08;
+        letter-spacing: -1.8px;
+        font-weight: 800;
+      }
+
+      .hero-subtitle {
+        margin: 12px 0 22px;
+        color: var(--muted);
+        font-size: 32px;
+        line-height: 1;
+        font-weight: 500;
+        letter-spacing: -0.8px;
+      }
+
+      .section-label {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        height: 42px;
+        border-top: 1px solid rgba(65, 56, 47, 0.08);
+        color: #756e65;
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.6px;
+      }
+
+      .grabber {
+        width: 30px;
+        height: 30px;
+        display: grid;
+        grid-template-columns: repeat(2, 4px);
+        grid-template-rows: repeat(3, 4px);
+        gap: 5px 7px;
+        justify-content: center;
+        align-content: center;
+      }
+
+      .grabber i {
+        width: 4px;
+        height: 4px;
+        border-radius: 99px;
+        background: #7d766d;
+      }
+
+      .board {
+        width: 734px;
+        min-height: 446px;
+        margin-top: 4px;
+        margin-left: 0;
+        padding: 28px 30px 26px;
+        background: white;
+        border: 1px solid #d8dce3;
+        border-radius: 7px 7px 0 0;
+        box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
+      }
+
+      .brand-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .brand-mark {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        background: var(--primary);
+        display: grid;
+        grid-template-columns: repeat(3, 4px);
+        align-items: end;
+        justify-content: center;
+        gap: 4px;
+        padding-bottom: 9px;
+        box-shadow: inset 0 -10px 18px rgba(29, 78, 216, 0.35);
+      }
+
+      .brand-mark span {
+        width: 4px;
+        border-radius: 4px;
+        background: #fff;
+      }
+
+      .brand-mark span:nth-child(1) {
+        height: 9px;
+      }
+
+      .brand-mark span:nth-child(2) {
+        height: 14px;
+      }
+
+      .brand-mark span:nth-child(3) {
+        height: 20px;
+      }
+
+      .brand-name {
+        color: var(--ink);
+        font-size: 24px;
+        font-weight: 900;
+        letter-spacing: -0.8px;
+      }
+
+      .intro-row {
+        display: grid;
+        grid-template-columns: 1fr 160px;
+        align-items: end;
+        gap: 32px;
+        margin-top: 9px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e9edf3;
+      }
+
+      .intro-copy {
+        margin: 0;
+        max-width: 522px;
+        color: #435b7c;
+        font-size: 12px;
+        line-height: 1.35;
+        font-weight: 600;
+      }
+
+      .platform {
+        text-align: right;
+        color: #8ca0bd;
+        font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+        font-size: 9.5px;
+        line-height: 1.35;
+        letter-spacing: 0.1px;
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 58px;
+        padding-top: 21px;
+      }
+
+      .eyebrow {
+        margin: 0 0 13px;
+        color: #50627b;
+        font-size: 9px;
+        line-height: 1;
+        font-weight: 900;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+      }
+
+      .palette {
+        display: grid;
+        grid-template-columns: repeat(4, 76px);
+        gap: 14px 13px;
+      }
+
+      .swatch {
+        min-width: 0;
+      }
+
+      .chip {
+        width: 76px;
+        height: 44px;
+        border-radius: 8px;
+        border: 1px solid rgba(15, 23, 42, 0.06);
+        margin-bottom: 7px;
+      }
+
+      .token-name {
+        display: block;
+        color: var(--ink);
+        font-size: 9px;
+        line-height: 1;
+        font-weight: 900;
+      }
+
+      .token-value {
+        display: block;
+        color: #50627b;
+        font-size: 8px;
+        line-height: 1.3;
+        font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+        margin-top: 2px;
+      }
+
+      .type-block {
+        padding-top: 2px;
+      }
+
+      .dark-mode-card {
+        margin-top: 18px;
+        padding: 14px 16px;
+        border-radius: 14px;
+        border: 1px solid var(--dark-border);
+        background: var(--dark-page);
+        color: var(--dark-text);
+      }
+
+      .dark-mode-card strong {
+        display: block;
+        color: var(--primary);
+        font-size: 10px;
+        letter-spacing: 0.9px;
+        text-transform: uppercase;
+      }
+
+      .dark-mode-card p {
+        margin: 6px 0 0;
+        color: var(--dark-muted);
+        font-size: 11px;
+        line-height: 1.45;
+        font-weight: 700;
+      }
+
+      .dark-samples {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .dark-samples span {
+        height: 22px;
+        border-radius: 7px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .display {
+        margin: 17px 0 4px;
+        color: var(--ink);
+        font-size: 24px;
+        line-height: 1.05;
+        font-weight: 900;
+        letter-spacing: -0.6px;
+      }
+
+      .type-title {
+        margin: 0 0 5px;
+        color: var(--ink);
+        font-size: 15px;
+        line-height: 1;
+        font-weight: 900;
+        letter-spacing: -0.3px;
+      }
+
+      .type-body {
+        margin: 0 0 5px;
+        color: var(--ink);
+        font-size: 13px;
+        line-height: 1;
+        font-weight: 700;
+      }
+
+      .type-secondary {
+        margin: 0 0 10px;
+        color: var(--slate);
+        font-size: 12px;
+        line-height: 1;
+        font-weight: 500;
+      }
+
+      .mono {
+        color: #8ca0bd;
+        font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+        font-size: 10px;
+        letter-spacing: -0.2px;
+      }
+
+      .requirements {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 9px;
+        margin-top: 23px;
+      }
+
+      .requirement-pill {
+        border: 1px solid #e5eaf1;
+        border-radius: 999px;
+        padding: 7px 9px;
+        color: #50627b;
+        background: #fbfdff;
+        font-size: 9px;
+        font-weight: 800;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      @media (max-width: 860px) {
+        .page {
+          width: 100%;
+          padding: 16px 20px 40px;
+        }
+
+        .hero-title {
+          font-size: 42px;
+        }
+
+        .hero-subtitle {
+          font-size: 24px;
+        }
+
+        .board {
+          width: 100%;
+          min-height: 0;
+        }
+
+        .content-grid,
+        .intro-row {
+          grid-template-columns: 1fr;
+        }
+
+        .platform {
+          text-align: left;
+        }
+
+        .palette {
+          grid-template-columns: repeat(3, 76px);
+        }
+
+        .requirements {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <h1 class="hero-title">00 &middot; Design System</h1>
+      <p class="hero-subtitle">Tokens, type, and core components</p>
+
+      <div class="section-label">
+        <span class="grabber" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i>
+        </span>
+        <span>Foundations</span>
+      </div>
+
+      <section class="board" aria-labelledby="system-title">
+        <div class="brand-row">
+          <div class="brand-mark" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <div id="system-title" class="brand-name">HouseEd</div>
+        </div>
+
+        <div class="intro-row">
+          <p class="intro-copy">
+            A calm, systematic mobile learning platform for House of Edtech. White surfaces,
+            slate ink, and a single confident blue; dark mode switches the whole page to
+            black with near-black cards, white text, blue active states, and light-grey
+            inactive controls.
+          </p>
+          <div class="platform">
+            iOS &middot; Android<br />
+            Expo &middot; NativeWind<br />
+            TypeScript &middot; SecureStore
+          </div>
+        </div>
+
+        <div class="content-grid">
+          <section>
+            <p class="eyebrow">Palette</p>
+            <div class="palette">
+              <div class="swatch">
+                <div class="chip" style="background: var(--primary)"></div>
+                <span class="token-name">Primary</span>
+                <span class="token-value">#2563EB</span>
+              </div>
+              <div class="swatch">
+                <div class="chip" style="background: var(--navy)"></div>
+                <span class="token-name">Navy</span>
+                <span class="token-value">#0B1221</span>
+              </div>
+              <div class="swatch">
+                <div class="chip" style="background: var(--ink)"></div>
+                <span class="token-name">Ink</span>
+                <span class="token-value">#0F172A</span>
+              </div>
+              <div class="swatch">
+                <div class="chip" style="background: var(--slate)"></div>
+                <span class="token-name">Slate</span>
+                <span class="token-value">#64748B</span>
+              </div>
+              <div class="swatch">
+                <div class="chip" style="background: var(--soft-blue)"></div>
+                <span class="token-name">Soft Blue</span>
+                <span class="token-value">#EFF6FF</span>
+              </div>
+              <div class="swatch">
+                <div class="chip" style="background: var(--canvas)"></div>
+                <span class="token-name">Canvas</span>
+                <span class="token-value">#F8FAFC</span>
+              </div>
+              <div class="swatch">
+                <div class="chip" style="background: var(--success)"></div>
+                <span class="token-name">Success</span>
+                <span class="token-value">#16A34A</span>
+              </div>
+              <div class="swatch">
+                <div class="chip" style="background: var(--warning)"></div>
+                <span class="token-name">Warning</span>
+                <span class="token-value">#F59E0B</span>
+              </div>
+              <div class="swatch">
+                <div class="chip" style="background: var(--error)"></div>
+                <span class="token-name">Error</span>
+                <span class="token-value">#DC2626</span>
+              </div>
+              <div class="swatch">
+                <div class="chip" style="background: var(--border)"></div>
+                <span class="token-name">Border</span>
+                <span class="token-value">#E2E8F0</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="type-block">
+            <p class="eyebrow">Type &middot; Plus Jakarta Sans</p>
+            <p class="display">Display 30/800</p>
+            <p class="type-title">Title 18/800</p>
+            <p class="type-body">Body 15/600</p>
+            <p class="type-secondary">Secondary 13/500</p>
+            <p class="mono">MONO &middot; 4h 20m &middot; PDF</p>
+
+            <div class="dark-mode-card">
+              <strong>Dark mode</strong>
+              <p>Page black, surfaces near-black, text white, muted text cool grey, active controls blue, inactive controls light grey.</p>
+              <div class="dark-samples" aria-label="Dark mode palette">
+                <span style="background: var(--dark-page)"></span>
+                <span style="background: var(--dark-surface)"></span>
+                <span style="background: var(--primary)"></span>
+                <span style="background: var(--dark-inactive-surface)"></span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="requirements" aria-label="Assignment requirements covered">
+          <span class="requirement-pill">Expo Router</span>
+          <span class="requirement-pill">WebView Bridge</span>
+          <span class="requirement-pill">SecureStore Auth</span>
+          <span class="requirement-pill">Offline States</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
