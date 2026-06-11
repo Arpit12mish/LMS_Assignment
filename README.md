@@ -75,9 +75,29 @@ docs/                   Visual and implementation design-system docs
 
 ## **Setup**
 
+Prerequisites:
+
+- Node.js **20 LTS** or **22 LTS**
+- npm
+- Expo CLI through `npx`
+- Android Studio or Xcode if running on a local emulator/simulator
+- Expo Go or a development build for physical-device testing
+
+Install dependencies:
+
 ```bash
 npm install
+```
+
+Run static validation:
+
+```bash
 npm run typecheck
+```
+
+Start Metro:
+
+```bash
 npm start
 ```
 
@@ -91,13 +111,27 @@ npm run android
 npm run web
 ```
 
-Environment variables:
+For a clean local run:
+
+1. Install dependencies with `npm install`.
+2. Add the environment variable below if you want to override the default API URL.
+3. Run `npm run typecheck`.
+4. Run `npm start`.
+5. Press `i` for iOS, `a` for Android, or scan the QR code with Expo Go/development build.
+
+---
+
+## **Environment Variables**
+
+The app works without a local `.env` file because it falls back to the assignment API base URL. To make the API target explicit, create `.env.local`:
 
 ```bash
 EXPO_PUBLIC_API_BASE_URL=https://api.freeapi.app
 ```
 
-If the variable is omitted, the app defaults to `https://api.freeapi.app`.
+| Variable | Required | Default | Purpose |
+|----------|----------|---------|---------|
+| `EXPO_PUBLIC_API_BASE_URL` | No | `https://api.freeapi.app` | Base URL for FreeAPI auth, random users, random products, and user endpoints |
 
 For EAS cloud builds, configure the same value in the Expo dashboard or through EAS environment variables instead of committing a `.env` file.
 
@@ -148,7 +182,16 @@ For EAS cloud builds, configure the same value in the Expo dashboard or through 
 
 - Demo video: [assets/demo/DemoVideo.mp4](assets/demo/DemoVideo.mp4)
 - Design-system board: [docs/houseed-design-system.html](docs/houseed-design-system.html)
-- Main screen screenshots can be placed in `assets/screenshots/` for the final GitHub release.
+
+Main screen screenshots are stored in `assets/screenshots/`:
+
+| Home | Explore |
+|------|---------|
+| ![Home dashboard](assets/screenshots/home.png) | ![Explore catalog](assets/screenshots/explore.png) |
+
+| Course Detail | Downloads | Profile |
+|---------------|-----------|---------|
+| ![Course detail](assets/screenshots/course.png) | ![Downloads and offline lessons](assets/screenshots/download.png) | ![Profile and settings](assets/screenshots/profile.png) |
 
 ---
 
