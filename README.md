@@ -10,6 +10,23 @@ HouseEd is a production-style Mini LMS built with **React Native Expo**, **TypeS
 
 ---
 
+## **Screenshots And Demo**
+
+- Demo video: [assets/demo/DemoVideo.mp4](assets/demo/DemoVideo.mp4)
+- Design-system board: [docs/houseed-design-system.html](docs/houseed-design-system.html)
+
+Main screen screenshots are stored in `assets/screenshots/`:
+
+| Home | Explore |
+|------|---------|
+| ![Home dashboard](assets/screenshots/home.png) | ![Explore catalog](assets/screenshots/explore.png) |
+
+| Course Detail | Downloads | Profile |
+|---------------|-----------|---------|
+| ![Course detail](assets/screenshots/course.png) | ![Downloads and offline lessons](assets/screenshots/download.png) | ![Profile and settings](assets/screenshots/profile.png) |
+
+---
+
 ## **Features**
 
 | Feature | Description |
@@ -175,25 +192,6 @@ For EAS cloud builds, configure the same value in the Expo dashboard or through 
 - Authenticated requests read the access token from SecureStore at request time and inject `Authorization: Bearer <token>`.
 - A `401` response on authenticated requests attempts refresh-token recovery once, then retries the original request.
 - Logout calls the backend logout endpoint and clears both SecureStore token keys locally even if the network request fails.
-
----
-
-## **Screenshots And Demo**
-
-- Demo video: [assets/demo/DemoVideo.mp4](assets/demo/DemoVideo.mp4)
-- Design-system board: [docs/houseed-design-system.html](docs/houseed-design-system.html)
-
-Main screen screenshots are stored in `assets/screenshots/`:
-
-| Home | Explore |
-|------|---------|
-| ![Home dashboard](assets/screenshots/home.png) | ![Explore catalog](assets/screenshots/explore.png) |
-
-| Course Detail | Downloads | Profile |
-|---------------|-----------|---------|
-| ![Course detail](assets/screenshots/course.png) | ![Downloads and offline lessons](assets/screenshots/download.png) | ![Profile and settings](assets/screenshots/profile.png) |
-
----
 
 ## **APK Build**
 
