@@ -3,7 +3,110 @@
 [Watch Demo](assets/demo/DemoVideo.mp4)
 **[Download APK](https://expo.dev/accounts/arpit12mish/projects/myAssign/builds/c68afcbb-62f0-4c78-ba7a-d6ff3d7120e6)** 
 
-HouseEd is a production-style Mini LMS built with **React Native Expo**, **TypeScript strict mode**, **Expo Router**, **NativeWind**, **Expo SecureStore**, and **AsyncStorage**. It is aligned with the assignment requirements: authentication, course catalog API integration, bookmark persistence, WebView course content, local notifications, offline states, retry handling, optimized lists, downloads, profile management, and a preference-driven dark mode.
+HouseEd is a production-style Mini LMS built with **React Native Expo**, **TypeScript strict mode**, **Expo Router**, **NativeWind**, **Expo SecureStore**, and **AsyncStorage**. It is aligned with the assignment requirements: authentication, course catalog API integration, bookmark persistence, WebView course content, local notifications, offline states, retry handling, optimized lists, downloads, profile management, a preference-driven dark mode, and a bonus **AI Learning Assistant** powered by the Gemini API.
+
+---
+
+## AI Integration — Gemini BYOK Demo Mode
+
+### Why Gemini?
+
+Google Gemini (`gemini-2.0-flash-lite`) is fast, free-tier friendly, and produces well-structured JSON responses. It is accessible via a simple HTTPS `fetch` call with no Node.js SDK, making it compatible with React Native / Expo out of the box.
+
+### How to get a Gemini API key
+
+1. Visit [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
+2. Sign in with a Google account
+3. Click **Create API key** — copy the key that starts with `AIza…`
+4. The free tier supports generous call volume — more than enough for assignment demos
+
+### How to add your Gemini key in the app
+
+1. Open the app and tap the **AI** tab (✦ Sparkles icon)
+2. Tap **Paste your Gemini API key** in the Gemini API Key card
+3. Paste your key and tap **Save Key**
+4. Optionally tap **Test Key** to verify — Gemini will respond with a confirmation
+5. The **AiModeBanner** will switch from "Local AI Active" to "Gemini AI Active"
+
+### Where is the key stored?
+
+The key is stored exclusively in **Expo SecureStore** using the same device-bound, unlock-gated options (`WHEN_UNLOCKED_THIS_DEVICE_ONLY`) used for auth tokens. It is:
+
+- Never logged to the console
+- Never written to AsyncStorage or any file
+- Never sent to any server other than `generativelanguage.googleapis.com`
+- Never committed to source control (no `.env` with real keys)
+
+### Why this is NOT production architecture
+
+Calling Gemini directly from a mobile app means the API key lives on the user's device. A motivated attacker with a rooted device or traffic proxy could extract it.
+
+**Production architecture should be:**
+```
+React Native App  →  Your Backend (Node/Python/etc.)  →  Gemini API
+```
+The backend acts as a proxy: it holds the Gemini key server-side, validates the user's session, applies rate limiting per user, and forwards only sanitised queries to Gemini.
+
+This app uses the BYOK (Bring Your Own Key) pattern solely for **demo / assignment / interviewer testing** purposes, which is explicitly acceptable in that context.
+
+### Free-tier / cost control measures
+
+| Control | Value |
+|---|---|
+| Max courses sent to Gemini per call | 25 (compact objects) |
+| Description truncation | 80 characters |
+| Max search query length | 300 characters |
+| Max interests sent | 5 |
+| Max AI calls per app session | 5 (resets on app restart) |
+| Gemini max output tokens | 1024 |
+| Gemini temperature | 0.2 (deterministic, token-efficient) |
+| Search/Recommend trigger | Button press only — never on every keystroke |
+
+### Local fallback behaviour
+
+If the Gemini API key is missing, invalid, rate-limited, or the network fails:
+
+- The app **never crashes**
+- A user-friendly error message is shown
+- Results are served by the **local smart search engine** or **local recommendation engine** (pure in-memory, no network required)
+- A banner clearly indicates **"Local AI fallback active"**
+- The user can still tap course cards to navigate normally
+
+### AI features
+
+| Feature | Description |
+|---|---|
+| **Key Setup Card** | Enter, save, test, update, and clear the Gemini key — masked display, SecureStore backed |
+| **AI Smart Search** | Natural language query ranked against the course catalog via Gemini or local keyword engine |
+| **Course Recommendations** | Goal + skill level + interests → personalised ranked course list via Gemini or local scorer |
+| **Session call counter** | Shows remaining Gemini calls (max 5 per session) in the AiModeBanner |
+| **Local fallback** | Always available, alias-aware keyword scoring — no key or network required |
+
+### AI Screenshots
+
+| AI Home — Key Active | AI Smart Search | Course Recommendations |
+|---|---|---|
+| ![AI screen with Gemini key saved and active](assets/screenshots/aiscreen01.png) | ![AI Smart Search local fallback results](assets/screenshots/AISmartSearch.png) | ![Course Recommendations form and results](assets/screenshots/courseRecommendation.png) |
+
+**Screen 1 — AI Home (key saved):** The green "Gemini AI Active" banner confirms the key is loaded from SecureStore. The masked key (`AIza·····QCoo`), Test and Clear buttons, and the security disclaimer are all visible. Session call counter shows 5 of 5 remaining.
+
+**Screen 2 — AI Smart Search:** Query "beginner mobile course" entered. The amber "Local AI fallback active" banner appears when Gemini is unavailable — local keyword scoring returns ranked results with match percentage and matched topics shown on each card.
+
+**Screen 3 — Course Recommendations:** Learner profile form with goal text, Beginner/Intermediate/Advanced skill level pills, interests, and hours per week. "Get Recommendations" triggers the recommendation engine (Gemini or local). Results show confidence percentage and matched tags.
+
+### Testing the AI feature (9 interviewer scenarios)
+
+| Test | Expected result |
+|---|---|
+| Open AI tab with no key | Banner shows "Local AI Active", local results on search/recommend |
+| Save an invalid key, tap Test | Error message appears: "Invalid Gemini API key" |
+| Save a valid key, tap Test | "Key is valid — Gemini responded successfully" |
+| Valid key → AI Search | "Gemini AI results" badge, up to 5 ranked courses |
+| Valid key → Get Recommendations | "Gemini AI results" badge, 3–5 personalised courses |
+| Clear key | Banner reverts to "Local AI Active", local results |
+| App restart with saved key | Key survives restart (SecureStore persists it) |
+| No internet with valid key | Gemini timeout → local fallback + error message |
+| Existing auth / bookmarks | Completely unaffected — AI is isolated in `features/ai/` |
 
 > Built and designed by [Arpit Mishra](https://www.linkedin.com/in/mish12arpit-187075288/)
 > Mail : mish12arpit@gmail.com
@@ -15,7 +118,7 @@ HouseEd is a production-style Mini LMS built with **React Native Expo**, **TypeS
 - Demo video: [assets/demo/DemoVideo.mp4](assets/demo/DemoVideo.mp4)
 - Design-system board: [docs/houseed-design-system.html](docs/houseed-design-system.html)
 
-Main screen screenshots are stored in `assets/screenshots/`:
+All screenshots are stored in `assets/screenshots/`:
 
 | Home | Explore |
 |------|---------|
@@ -24,6 +127,12 @@ Main screen screenshots are stored in `assets/screenshots/`:
 | Course Detail | Downloads | Profile |
 |---------------|-----------|---------|
 | ![Course detail](assets/screenshots/course.png) | ![Downloads and offline lessons](assets/screenshots/download.png) | ![Profile and settings](assets/screenshots/profile.png) |
+
+**AI Learning Assistant screens:**
+
+| AI Home — Key Active | AI Smart Search | Course Recommendations |
+|---|---|---|
+| ![AI screen with Gemini key saved and active](assets/screenshots/aiscreen01.png) | ![AI Smart Search local fallback results](assets/screenshots/AISmartSearch.png) | ![Course Recommendations form and results](assets/screenshots/courseRecommendation.png) |
 
 ---
 

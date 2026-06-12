@@ -11,7 +11,6 @@ import {
   getGoogleLoginUrl,
   login as loginRequest,
   logout as logoutRequest,
-  persistSession,
   persistTokenSession,
   refreshCurrentSession,
   register as registerRequest,
@@ -116,6 +115,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [inAppNotification, setInAppNotification] = useState<InAppNotification | null>(null);
   const notificationTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const notificationsEnabledRef = useRef(defaultPreferences.notificationsEnabled);
+  const sessionRef = useRef<AuthSession | null>(null);
+  const isHydratedRef = useRef(false);
 
   const showInAppNotification = useCallback((notification: InAppNotification) => {
     if (notificationTimer.current) {
@@ -132,6 +133,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     notificationsEnabledRef.current = preferences.notificationsEnabled;
   }, [preferences.notificationsEnabled]);
+
+  useEffect(() => {
+    sessionRef.current = session;
+  }, [session]);
 
   useEffect(() => {
     if (!reminderPreviewDueAt) return undefined;
@@ -213,6 +218,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       setLastOpenedAt(savedLastOpenedAt);
       setReminderPreviewDueAt(savedReminderPreviewDueAt && savedReminderPreviewDueAt > Date.now() ? savedReminderPreviewDueAt : null);
       setIsOffline(networkIsOffline(networkState));
+      isHydratedRef.current = true;
       setIsHydrated(true);
 
       if (savedReminderPreviewDueAt && savedReminderPreviewDueAt <= Date.now()) {
@@ -248,6 +254,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
       if (state === "active") {
         cancelInactivityReminder().catch(() => undefined);
+        // If the device was locked during a cold background launch, restoreSession
+        // returned null because the keychain was inaccessible. Re-attempt now that
+        // the device is unlocked and visible to the user.
+        if (isHydratedRef.current && !sessionRef.current) {
+          restoreSession().then((s) => { if (s && active) setSession(s); }).catch(() => undefined);
+        }
       }
     });
 
@@ -324,7 +336,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
     const nextSession = await refreshCurrentSession(session);
     setSession(nextSession);
-    await persistSession(nextSession);
     showInAppNotification({
       title: "Token refreshed",
       message: "A new access token was stored in SecureStore.",
@@ -616,16 +627,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
     if (result.canceled || !result.assets[0]?.uri) return;
 
-    const nextSession = {
-      ...session,
-      user: {
-        ...session.user,
-        avatar: result.assets[0].uri,
-      },
-    };
-
-    setSession(nextSession);
-    await persistSession(nextSession);
+    const nextUser = { ...session.user, avatar: result.assets[0].uri };
+    setSession({ ...session, user: nextUser });
+    await writeJson(storageKeys.authUser, nextUser);
   }, [session]);
 
   const downloadLesson = useCallback(

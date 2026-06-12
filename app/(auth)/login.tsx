@@ -2,6 +2,7 @@ import { Link, Redirect, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { KeyboardAvoidingView, Platform, Text, TextInput, View } from "react-native";
 import { Button } from "@/components/ui";
+import { ApiError } from "@/services/api";
 import { useAppStore } from "@/store/app-store";
 
 export default function LoginScreen() {
@@ -27,7 +28,19 @@ export default function LoginScreen() {
       await login(email.trim(), password);
       router.replace("/(tabs)");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not sign in.");
+      if (err instanceof ApiError) {
+        if (err.status === 401 || err.status === 403) {
+          setError("Incorrect email or password. Please try again.");
+        } else if (err.status === 400) {
+          setError(err.message || "Invalid email or password format.");
+        } else if (err.status != null && err.status >= 500) {
+          setError("Server error. Please try again in a moment.");
+        } else {
+          setError(err.message || "Could not sign in.");
+        }
+      } else {
+        setError(err instanceof Error ? err.message : "Could not sign in.");
+      }
     } finally {
       setLoading(false);
     }

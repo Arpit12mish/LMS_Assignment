@@ -1,6 +1,6 @@
 import * as SecureStore from "expo-secure-store";
-import { API_BASE_URL, ApiError, apiFetch, authTokenKey, secureStoreOptions } from "@/services/api";
-import { readJson, storageKeys, writeJson } from "@/services/storage";
+import { API_BASE_URL, ApiError, apiFetch } from "@/services/api";
+import { readJson, secureStoreOptions, storageKeys, writeJson } from "@/services/storage";
 import type { AuthSession, UserProfile } from "@/types/lms";
 
 interface ApiUserPayload {
@@ -120,18 +120,18 @@ const normalizeSession = (payload: AuthResponse, email: string): AuthSession => 
 };
 
 export async function persistSession(session: AuthSession): Promise<void> {
-  await SecureStore.setItemAsync(authTokenKey, session.token, secureStoreOptions);
+  await SecureStore.setItemAsync(storageKeys.accessToken, session.token, secureStoreOptions);
   if (session.refreshToken) {
     await SecureStore.setItemAsync(storageKeys.refreshToken, session.refreshToken, secureStoreOptions);
   } else {
-    await SecureStore.deleteItemAsync(storageKeys.refreshToken);
+    await SecureStore.deleteItemAsync(storageKeys.refreshToken, secureStoreOptions);
   }
   await writeJson(storageKeys.authUser, session.user);
 }
 
 async function clearSession(): Promise<void> {
-  await SecureStore.deleteItemAsync(authTokenKey);
-  await SecureStore.deleteItemAsync(storageKeys.refreshToken);
+  await SecureStore.deleteItemAsync(storageKeys.accessToken, secureStoreOptions);
+  await SecureStore.deleteItemAsync(storageKeys.refreshToken, secureStoreOptions);
   await writeJson<UserProfile | null>(storageKeys.authUser, null);
 }
 
@@ -199,8 +199,8 @@ async function validateSession(session: AuthSession): Promise<AuthSession> {
     retries: 0,
   });
   const source = flattenAuthPayload(payload);
-  const latestToken = (await SecureStore.getItemAsync(authTokenKey)) ?? session.token;
-  const latestRefreshToken = (await SecureStore.getItemAsync(storageKeys.refreshToken)) ?? session.refreshToken;
+  const latestToken = (await SecureStore.getItemAsync(storageKeys.accessToken, secureStoreOptions)) ?? session.token;
+  const latestRefreshToken = (await SecureStore.getItemAsync(storageKeys.refreshToken, secureStoreOptions)) ?? session.refreshToken;
 
   return {
     ...session,
@@ -211,10 +211,10 @@ async function validateSession(session: AuthSession): Promise<AuthSession> {
 }
 
 export async function restoreSession(): Promise<AuthSession | null> {
-  const token = await SecureStore.getItemAsync(authTokenKey);
+  const token = await SecureStore.getItemAsync(storageKeys.accessToken, secureStoreOptions);
   if (!token) return null;
 
-  const refreshToken = await SecureStore.getItemAsync(storageKeys.refreshToken);
+  const refreshToken = await SecureStore.getItemAsync(storageKeys.refreshToken, secureStoreOptions);
   const user = await readJson<UserProfile | null>(storageKeys.authUser, null);
   if (!user) {
     await clearSession();

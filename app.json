@@ -28,8 +28,9 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
+      "router": {},
       "eas": {
-        "projectId": "05be9e9e-d4c3-4c2d-9a56-7f3a37c82ef4"
+        "projectId": "09715898-3cf8-4f4b-9489-91d0e4cc32d4"
       }
     },
     "owner": "arpit12mish",

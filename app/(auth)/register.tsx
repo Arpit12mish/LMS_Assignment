@@ -2,6 +2,7 @@ import { Link, Redirect, useRouter } from "expo-router";
 import React, { useMemo, useState } from "react";
 import { KeyboardAvoidingView, Platform, Text, TextInput, View } from "react-native";
 import { Button, ProgressBar } from "@/components/ui";
+import { ApiError } from "@/services/api";
 import { useAppStore } from "@/store/app-store";
 
 export default function RegisterScreen() {
@@ -42,7 +43,19 @@ export default function RegisterScreen() {
       await register(name.trim(), email.trim(), password);
       router.replace("/(tabs)");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not create account.");
+      if (err instanceof ApiError) {
+        if (err.status === 409) {
+          setError("An account with this email already exists. Try signing in.");
+        } else if (err.status === 400) {
+          setError(err.message || "Invalid details. Please check your name, email and password.");
+        } else if (err.status != null && err.status >= 500) {
+          setError("Server error. Please try again in a moment.");
+        } else {
+          setError(err.message || "Could not create account.");
+        }
+      } else {
+        setError(err instanceof Error ? err.message : "Could not create account.");
+      }
     } finally {
       setLoading(false);
     }

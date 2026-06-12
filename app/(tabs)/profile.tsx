@@ -254,12 +254,21 @@ function SettingsModal({
   isDark: boolean;
 }) {
   const [now, setNow] = useState(Date.now());
-  const [oldPassword, setOldPassword] = useState("test@123");
-  const [newPassword, setNewPassword] = useState("test@123");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [securityMessage, setSecurityMessage] = useState<string | null>(null);
   const [securityError, setSecurityError] = useState<string | null>(null);
   const [securityLoading, setSecurityLoading] = useState<"refresh" | "password" | null>(null);
   const secondsLeft = reminderPreviewDueAt ? Math.max(0, Math.ceil((reminderPreviewDueAt - now) / 1000)) : 0;
+
+  useEffect(() => {
+    if (!visible) return;
+    setOldPassword("");
+    setNewPassword("");
+    setSecurityMessage(null);
+    setSecurityError(null);
+    setSecurityLoading(null);
+  }, [visible]);
 
   useEffect(() => {
     if (!visible) return undefined;

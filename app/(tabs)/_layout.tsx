@@ -1,5 +1,5 @@
 import { Redirect, Tabs } from "expo-router";
-import { Bookmark, Compass, Download, Home, UserRound } from "lucide-react-native";
+import { Bookmark, Compass, Download, Home, Sparkles, UserRound } from "lucide-react-native";
 import React from "react";
 import { useAppStore } from "@/store/app-store";
 
@@ -9,6 +9,7 @@ const tabLabels: Record<string, string> = {
   saved: "Saved",
   downloads: "Downloads",
   profile: "Profile",
+  ai: "AI",
 };
 
 const tabIcons = {
@@ -17,6 +18,7 @@ const tabIcons = {
   saved: Bookmark,
   downloads: Download,
   profile: UserRound,
+  ai: Sparkles,
 };
 
 export default function TabsLayout() {
@@ -68,6 +70,7 @@ export default function TabsLayout() {
       />
       <Tabs.Screen name="downloads" options={{ title: "Downloads" }} />
       <Tabs.Screen name="profile" options={{ title: "Profile" }} />
+      <Tabs.Screen name="ai" options={{ title: "AI" }} />
     </Tabs>
   );
 }

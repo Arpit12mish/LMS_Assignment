@@ -233,7 +233,12 @@ export default function CourseDetailScreen() {
                           <Text className="text-[11px] font-extrabold text-success">Saved</Text>
                         </View>
                       ) : lesson.downloadUrl ? (
-                        <Pressable accessibilityLabel="Download lesson" onPress={() => startDownload(lesson)} hitSlop={10}>
+                        <Pressable
+                          accessibilityLabel="Download lesson"
+                          onPress={() => startDownload(lesson)}
+                          disabled={downloadingId === lesson.id}
+                          hitSlop={10}
+                        >
                           {downloadingId === lesson.id ? <Ellipsis size={20} color="#64748B" /> : <Download size={18} color="#64748B" strokeWidth={2.2} />}
                         </Pressable>
                       ) : null}
