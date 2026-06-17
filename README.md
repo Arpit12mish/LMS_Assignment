@@ -1,7 +1,7 @@
 # HouseEd LMS – React Native Expo Mobile App
 
-[Watch Demo](assets/demo/DemoVideo.mp4)
-**[Download APK](https://expo.dev/accounts/arpit12mish/projects/myAssign/builds/c68afcbb-62f0-4c78-ba7a-d6ff3d7120e6)** 
+[Watch Demo](assets/demo/DemoVideo.mov)
+**[Download APK](https://expo.dev/accounts/arpit12mish/projects/houseed-lms/builds/6b2d668a-c71e-4db7-b77f-70ac89558edb)** 
 
 HouseEd is a production-style Mini LMS built with **React Native Expo**, **TypeScript strict mode**, **Expo Router**, **NativeWind**, **Expo SecureStore**, and **AsyncStorage**. It is aligned with the assignment requirements: authentication, course catalog API integration, bookmark persistence, WebView course content, local notifications, offline states, retry handling, optimized lists, downloads, profile management, a preference-driven dark mode, and a bonus **AI Learning Assistant** powered by the Gemini API.
 
